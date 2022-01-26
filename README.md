@@ -4,10 +4,11 @@
 This README details an overview of a project used to round off a General Assembly Data Science Bootcamp giving insight to the workings of the project to an outsider.
 
 ## Repository Contents
-  
+
+  • Data (clean data for modelling, original data can be found at https://github.com/statsbomb/open-data)   
+  • Pictures   
   • Notebook  
   • READMe  
-  • Data (clean data for modelling, original data can be found at https://github.com/statsbomb/open-data)  
 
 ## Libraries
 
