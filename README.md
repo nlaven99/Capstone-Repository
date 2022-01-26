@@ -59,7 +59,7 @@ The event data is slightly more complex in structure, all files are different sh
 
 Two functions were created that take an individual file as an input. One is for home team events and the other for away teams. As the event files don’t have an attribute specifying the difference between the two, only the name of the team that was in possession for the event, the first step was appending all the event type names and their possession teams to an empty list for each. Next, these lists were used to make a temporary data frame which then had the events by the wrong team filtered out with a boolean mask. After some investigating of the data, I noticed the first event was always a home team line-up. For the home function the mask was equal to the possession team name that appeared first and the opposite for the away team function. These filtered data frames had their value count data converted to a dictionary using in-built pandas methods. This left a single column rather than a row, so the remaining column was transposed and had its column names edited to have a home or away team prefix added.
 
-![Home Function](https://github.com/nlaven99/Capstone-Repo/blob/main/Home%20Function%20Code.png)
+![Home Function](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Home%20Function%20Code.png)
 
 Parsing through a list of files created a blocker where the summed rows would not join together simply as each one had a different shape due to certain event types not occurring in every match. A large list was created containing the dataframes for every event file as each item. The home and away functions were applied on each item and the output was appended to a separate list for each team. To work around the shape irregularities, many empty lists were created for all possible events and a series of try/except statements were used to append the number of times that event happened or NaNs if that event hadn’t occurred. This was done separately for home and away teams and the lists for both were transformed into two more data frames. With all the pieces in the correct format a left join was performed on the home and away dataframes and this result was concatenated to get a final table ready to be used for the modelling.
 
@@ -98,14 +98,13 @@ Shields | Player shields ball to prevent opponent from keeping it in play
 
 The distributions of the passing and shot counts show a positive skew to the data. While the pass counts are almost identical for both teams, the shots show the home team to have slightly more on average. The similarity overall between the team distributions also suggests a level of consistency to team skill levels.
 
-![Home Passes Distribution](https://github.com/nlaven99/Capstone-Repo/blob/main/Home%20Pass%20Distribution.png) ![Away Passes Distribution](https://github.com/nlaven99/Capstone-Repo/blob/main/Away%20Pass%20Distribution.png)
+![Home Passes Distribution](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Home%20Pass%20Distribution.png) ![Away Passes Distribution](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Away%20Pass%20Distribution.png)
 
-![Home Team Shots Distribution](https://github.com/nlaven99/Capstone-Repo/blob/main/Home%20Shot%20Distribution.png)
-![Away Team Shots Distribution](https://github.com/nlaven99/Capstone-Repo/blob/main/Away%20Shot%20Distribution.png)
+![Home Team Shots Distribution](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Home%20Shot%20Distribution.png) ![Away Team Shots Distribution](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Away%20Shot%20Distribution.png)
 
 The relative baseline accuracies for each class can be seen in the pie chart below. It would be useful having more draw data for the classification model.
 
-![Pie Chart](https://github.com/nlaven99/Capstone-Repo/blob/main/Pie%20Chart.png)
+![Pie Chart](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Pie%20Chart.png)
 
 ## Modelling
 
@@ -115,25 +114,25 @@ Potential match outcomes were turned into binary-type labels. The final scores w
 
 The model with the highest cross validated test score was the Gridsearched Logistic Regression model with a score of 0.699. The confusion matrix for this model shows that there were a high number of true positives compared to false positives for the 0 and 1 labels. However no draw (2) predictions were made.
 
-![Model Confusion Matrix](https://github.com/nlaven99/Capstone-Repo/blob/main/Confusion%20Matrix.png)
+![Model Confusion Matrix](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Confusion%20Matrix.png)
 
 The classification report shows a reasonably high precision score for label 0 and slightly less so for label 1. As the precision score indicates the models ability to avoid incorrectly predicting a label as another, we see that the majority of labels 0 and 1 are true positives and this is supported by high recall scores, as the model identifies about 85% of the observations in the correct class for either team winning. However, no observations were predicted to be draws leaving a 0 accuracy for this label.
 
-![Model Classification Report](https://github.com/nlaven99/Capstone-Repo/blob/main/Classification%20Report.png)
+![Model Classification Report](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Classification%20Report.png)
 
 We can see that the model succeeds on the accuracies for a teams winning but is significantly bad at predicting draws. This is further supported by the Precision-Recall curve and the Receiving Operator Characteristic (ROC) curve.
 
-![Precision-Recall Curve](https://github.com/nlaven99/Capstone-Repo/blob/main/Precision-Recall.png) ![ROC Curve](https://github.com/nlaven99/Capstone-Repo/blob/main/ROC%20Curve.png)
+![Precision-Recall Curve](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Precision-Recall.png) ![ROC Curve](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/ROC%20Curve.png)
 
 Feature importances were found by using the Gridsearch’s best model estimator attribute followed by the built in feature importance attribute. These were turned into a data frame and the features with their importances were then displayed as a graph sort by increasing importance.
 
 The most important features appear to be possession oriented followed closely by shots and less so by goalkeeper events, with home team events having a higher importance regardless.
 
-![Top Feature Importances](https://github.com/nlaven99/Capstone-Repo/blob/main/Top%20Feature%20Importance.png)
+![Top Feature Importances](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Top%20Feature%20Importance.png)
 
 The least important features are rare events that tend to happen only once or twice if at all in a game. Some, like tactical shifts, are expected as this event in particular is likely to be a response to losing or suffering a blow to winning chances.
 
-![Bottom Feature Importances](https://github.com/nlaven99/Capstone-Repo/blob/main/Bottom%20Feature%20Importance.png)
+![Bottom Feature Importances](https://github.com/nlaven99/Capstone-Repo/blob/main/Pictures/Bottom%20Feature%20Importance.png)
 
 ## Conculusion
 
